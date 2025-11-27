@@ -61,7 +61,7 @@ const userSchema = new mongoose.Schema(
     },
 
     //Address references
-    address: [
+    addresses: [
       {
         type: mongoose.Schema.Types.ObjectId,
         ref: "Address",
