@@ -41,6 +41,7 @@ const shopSchema = new mongoose.Schema(
     category: {
       type: mongoose.Schema.Types.ObjectId,
       reg: "Category",
+      required: true
     },
     businessLicense: {
       number: {
@@ -97,41 +98,42 @@ const shopSchema = new mongoose.Schema(
       accountNumber: { type: String },
       type: { type: String }, //"bKash", "Nagad"
       bankName: { type: String },
-
     },
-    commission:{
-        rate: {
-            type: Number,
-            default: 5, //percentage
-            min: 0,
-            max: 100
-        },
-        type: {
-            type: String,
-            enum: ["percentage", "fixed"],
-            default: "percentage"
-        }
-    },
-    totalOrders:{
+    commission: {
+      rate: {
         type: Number,
-        default: 0,
-        min: 0
+        default: 5, //percentage
+        min: 0,
+        max: 100,
+      },
+      type: {
+        type: String,
+        enum: ["percentage", "fixed"],
+        default: "percentage",
+      },
     },
-    totalRevenue:{
-        type: Number,
-        default: 0,
-        min: 0
-    }
+    totalOrders: {
+      type: Number,
+      default: 0,
+      min: 0,
+    },
+    totalRevenue: {
+      type: Number,
+      default: 0,
+      min: 0,
+    },
   },
   {
     timestamps: true,
   }
 );
 
-shopSchema.methods.updateRating = function (newRating){
-    this.rating.count += 1;
-    this.rating.average = ((this.rating.average * (this.rating.count -1 )) + newRating) / this.rating.count;
-    return this.save();
-}
+shopSchema.methods.updateRating = function (newRating) {
+  this.rating.count += 1;
+  this.rating.average =
+    (this.rating.average * (this.rating.count - 1) + newRating) /
+    this.rating.count;
+  return this.save();
+};
 
 export const Shop = mongoose.model("Shop", shopSchema);
